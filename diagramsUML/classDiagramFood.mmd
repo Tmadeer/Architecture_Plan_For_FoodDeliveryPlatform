@@ -1,0 +1,41 @@
+classDiagram
+direction TB
+    class Menu {
+        Items
+        Quantity
+        price
+        Group_item()
+        selectItems()
+    }
+
+    class Order {
+        tracking_number
+        status
+        changeStatus()
+        create_order()
+        Notify_user()
+    }
+
+    class Restaurant {
+        resturant_name
+        receive_order()
+        confirmed_order()
+        update_order_status()
+    }
+
+    class user {
+        phone_number
+        address
+        email
+        password
+        name
+        track_oreder()
+        selectItem()
+        group_item()
+        send_order()
+    }
+
+   user "1" --> "" Order : places
+Restaurant "1" --> "" Order : accepting 
+Restaurant "1" -- "" Menu 
+user "1" --> "" Restaurant : viewing
