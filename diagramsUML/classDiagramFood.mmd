@@ -35,8 +35,8 @@ direction TB
 	+send_Items()
     }
 
- user "1" o-- "" Order : places
-Restaurant "1" --> "" Order : accepting
-Restaurant "1" -- "" Menu : has
-user "" --> "" Restaurant : viewing
-Order "" --> "1.." Menu : contains
+ user "1" o-- "*" Order : places
+Restaurant "1" --> "*" Order : accepting
+Restaurant "1" *-- "*" Menu : has
+user "*" --> "*" Restaurant : viewing
+Order "*" --> "1.." Menu : contains
