@@ -2,15 +2,15 @@ classDiagram
 direction TB
     class Menu {
         Items
-        Quantity
         price
-        Group_item()
-        selectItems()
+        offers
     }
 
     class Order {
         tracking_number
         status
+	sub_total()
+    	grouping_Items()
         changeStatus()
         create_order()
         Notify_user()
@@ -31,7 +31,6 @@ direction TB
         name
         track_oreder()
         selectItem()
-        group_item()
         send_order()
     }
 
@@ -39,3 +38,4 @@ direction TB
 Restaurant "1" --> "*" Order : accepting 
 Restaurant "1" -- "*" Menu 
 user "1" --> "*" Restaurant : viewing
+Order "0.." --> "1.." Menu : contains
