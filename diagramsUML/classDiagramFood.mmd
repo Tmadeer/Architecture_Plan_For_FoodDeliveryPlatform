@@ -35,7 +35,7 @@ direction TB
         send_order()
     }
 
-   user "1" --> "" Order : places
-Restaurant "1" --> "" Order : accepting 
-Restaurant "1" -- "" Menu 
-user "1" --> "" Restaurant : viewing
+   user "1" --> "*" Order : places
+Restaurant "1" --> "*" Order : accepting 
+Restaurant "1" -- "*" Menu 
+user "1" --> "*" Restaurant : viewing
