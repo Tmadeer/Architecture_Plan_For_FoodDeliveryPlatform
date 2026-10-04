@@ -1,41 +1,42 @@
 sequenceDiagram
-    autonumber
-    actor User as User
-    participant Menu as Menu
-    participant Order as Order
-    participant Restaurant as Restaurant
+autonumber
+actor U as user
+participant R as Restaurant
+participant M as Menu
+participant O as Order
 
-    %% 1. Browsing & Selection Phase
-    User->>Restaurant: viewing()
-    User->>Menu: select_items() / group_item()
-    Menu-->>User: Return selected items and quantities
+U->>R: viewing restaurant
+R->>M: load menu
+M-->>U: show Items, price and offers
+U->>U: selectItem()
+U->>O: send_items()
+activate O
+O->>O: grouping_Items()
+O->>M: get price and offers of selected Items
+M-->>O: price and offers
+O->>O: sub_total()
+O-->>U: show sub_total
+U->>O: send_order()
+O->>O: create_order()
+O->>R: forward order
+activate R
+R->>R: receive_order()
 
-    %% 2. Order Creation Phase
-    User->>Order: send_order() / create_order()
-    Note over Order: Order Status: created
-    Order-->>User: Notification: Your order has been created successfully and is pending review.
+alt Restaurant accepts the order
+    R->>R: confirmed_order()
+    R->>R: update_order_status("confirmed")
+    R->>O: status update
+    O->>O: changeStatus()
+    O-->>U: Notify_user("order confirmed")
+else Restaurant rejects the order
+    R->>R: update_order_status("rejected")
+    R->>O: status update
+    O->>O: changeStatus()
+    O-->>U: Notify_user("order rejected")
+end
 
-    %% 3. Restaurant Decision (Accept / Reject)
-    Restaurant->>Order: receive_order()
-    
-    alt Order Accepted
-        Restaurant->>Order: confirmed_order() / change_status(confirmed)
-        Note over Order: Order Status: confirmed
-        Order-->>User: Notification: Your order has been confirmed by the restaurant!
-
-        %% Order Progression States
-        Note over Order: Order Status: prepared
-        Order-->>User: Notification: Your order is now being prepared.
-
-        Note over Order: Order Status: delivered
-        Order-->>User: Notification: Your order has been delivered successfully. Enjoy your meal!
-
-    else Order Rejected
-        Restaurant->>Order: update_order_status(rejected)
-        Note over Order: Order Status: rejected
-        Order-->>User: Notification: Sorry, your order was rejected by the restaurant.
-    end
-
-    %% 4. Tracking Phase
-    User->>Order: track_order()
-    Order-->>User: Return final order status
+deactivate R
+deactivate O
+U->>U: track_order_number()
+U->>O: request status (tracking_number)
+O-->>U: status
