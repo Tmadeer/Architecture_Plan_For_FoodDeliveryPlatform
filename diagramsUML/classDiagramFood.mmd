@@ -15,6 +15,13 @@ direction TB
        +create_order()
        +Notify_user()
     }
+class orderHistory {
+        -int user_id
+        -list past_orders
+        +add_order(Order order)
+        +get_order_history()
+        +view_details(int tracking_number)
+    }
 
     class Restaurant {
         +str resturant_name
