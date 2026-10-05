@@ -32,7 +32,7 @@ direction TB
         -sub_total()
         -grouping_Items()
         -changeStatus()
-        +setState(OrderState final)
+        +setState(OrderState current)
         +create_order()
         +Notify_user()
     }
@@ -43,7 +43,7 @@ direction TB
 	-str order_stutes_history
         +add_order(Order order)
         +get_order_history()
-	+get_history_path(OrderState state)
+	+get_history_path(OrderState final)
         +view_details(int tracking_number)
     }
 
