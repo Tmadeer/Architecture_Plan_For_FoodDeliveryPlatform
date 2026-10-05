@@ -67,10 +67,14 @@ direction TB
         +next(Order order)
     }
 
-    %% user relations
     user "1" --> "*" Order : places
     user "1" -- "1" orderHistory : has
-
-    %% order relations
     orderHistory "1" o-- "*" Order : contains
-    Order "*" --> "1"
+    Order "*" --> "1" Restaurant : sent to
+    Order "*" ..> "*" Menu : uses
+    Restaurant "1" --> "1" Menu : offers
+    Order "1" --> "1" OrderState : state
+    OrderState <|-- Created
+    OrderState <|-- Confirmed
+    OrderState <|-- Prepared
+    OrderState <|-- Delivered
