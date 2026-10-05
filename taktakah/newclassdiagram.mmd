@@ -70,7 +70,7 @@ direction TB
     user "1" -- "1" orderHistory : has
     orderHistory "1" o-- "*" Order : contains
     Order "*" --> "1" Restaurant : sent to
-    Order "*" ..> "*" Menu : uses
+    Order "*" --> "*" Menu : contains items
     Restaurant "1" --> "1" Menu : offers
     Order "1" --> "1" OrderState : state
     OrderState <|-- Created
