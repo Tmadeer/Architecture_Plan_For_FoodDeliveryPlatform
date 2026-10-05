@@ -40,8 +40,10 @@ direction TB
     class orderHistory {
         -int user_id
         -list past_orders
+	-str order_stutes_history
         +add_order(Order order)
         +get_order_history()
+	+get_history_path(OrderState state)
         +view_details(int tracking_number)
     }
 
