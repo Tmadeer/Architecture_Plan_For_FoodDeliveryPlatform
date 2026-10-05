@@ -66,14 +66,16 @@ direction TB
         +next(Order order)
     }
 
-    user "1" --> "*" Order : places
-    user "1" -- "1" orderHistory : has
-    orderHistory "1" o-- "*" Order : contains
-    Order "*" --> "1" Restaurant : sent to
-    Order "*" --> "*" Menu : contains items
-    Restaurant "1" *-- "*" Menu : has
+    user "1" o-- "*" Order : places
+Restaurant "1" --> "*" Order : accepting
+Restaurant "1" * -- "*" Menu : has
+user "*" --> "*" Restaurant : viewing
+Order "*" --> "1.." Menu : contains
+user "1" --> "1" orderHistory : has
+orderHistory "1" o-- "*" Order : contains
     Order "1" --> "1" OrderState : state
     OrderState <|-- Created
     OrderState <|-- Confirmed
     OrderState <|-- Prepared
     OrderState <|-- Delivered
+
