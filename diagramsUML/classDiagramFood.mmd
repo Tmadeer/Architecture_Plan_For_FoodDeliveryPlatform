@@ -47,5 +47,5 @@ Restaurant "1" --> "*" Order : accepting
 Restaurant "1" *-- "*" Menu : has
 user "*" --> "*" Restaurant : viewing
 Order "*" --> "1.." Menu : contains
-User "1" --> "1" orderHistory : has
+user "1" --> "1" orderHistory : has
 orderHistory "1" o-- "*" Order : contains
