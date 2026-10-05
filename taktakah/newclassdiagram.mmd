@@ -32,7 +32,7 @@ direction TB
         -sub_total()
         -grouping_Items()
         -changeStatus()
-        +setState(OrderState state)
+        +setState(OrderState final)
         +create_order()
         +Notify_user()
     }
@@ -50,6 +50,8 @@ direction TB
     class OrderState {
         +str getName() 
         +next(Order order)
+	+current()
+	+final()
     }
 
     class Created {
@@ -80,4 +82,4 @@ orderHistory "1" o-- "*" Order : contains
     OrderState <|-- Confirmed
     OrderState <|-- Prepared
     OrderState <|-- Delivered
-
+orderHistory "1" o-- "*" OrderStat : viewing
