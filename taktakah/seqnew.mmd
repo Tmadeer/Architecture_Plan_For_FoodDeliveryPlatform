@@ -1,0 +1,54 @@
+sequenceDiagram
+    autonumber
+    actor user as user
+    participant Restaurant as Restaurant
+    participant Menu as Menu
+    participant Order as Order
+    participant OrderState as OrderState
+    participant orderHistory as orderHistory
+
+    user->>Restaurant: viewing restaurant
+    Restaurant-->>user: load menu
+    user->>Menu: show items, price and offers
+    user->>Menu: selectItem()
+    Menu->>Order: send_items
+    Order->>Order: grouping_items()
+    Order->>Menu: get price and offers of selected items
+    Menu-->>Order: price and offers
+    Order->>Order: sub_total()
+    Order-->>user: show sub_total
+    
+    user->>Order: send_order()
+    Order->>Order: create_order()
+    Order->>Restaurant: forward order
+    Restaurant->>Order: receive_order()
+    
+    alt Restaurant accepts the order
+        Restaurant->>Order: confirmed_order()
+        Order->>OrderState: setState(Confirmed)
+        Order->>orderHistory: add_order(Order)
+        Order->>Order: update_order_status("confirmed")
+        Order->>Order: changeStatus()
+        Order->>user: Notify_user("order confirmed")
+        
+        Note over Restaurant, Order: Preparation & Delivery
+        Restaurant->>Order: update_order_status("prepared")
+        Order->>OrderState: next(Order) -> Prepared
+        Order->>orderHistory: sending (OrderState)
+        
+        Restaurant->>Order: update_order_status("delivered")
+        Order->>OrderState: next(Order) -> Delivered
+        Order->>orderHistory: sending (OrderState)
+        Order->>user: Notify_user("order delivered")
+
+    else Restaurant rejects the order
+        Restaurant->>Order: update_order_status("rejected")
+        Order->>OrderState: setState(Rejected)
+        Order->>orderHistory: add_order(Order)
+        Order->>Order: changeStatus()
+        Order->>user: Notify_user("order rejected")
+    end
+
+    user->>orderHistory: track_order_number()
+    orderHistory->>Order: request status (tracking_number)
+    Order-->>user: status / view_details(tracking_number)
